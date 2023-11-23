@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  background-color: #222;
+}
+
+h1,
+h4,
+h2,
+p,
+a {
+  color: white;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.btn {
+  padding: 12px 32px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  background: rgb(214, 152, 214);
+  background: linear-gradient(
+    262deg,
+    rgba(214, 152, 214, 1) 0%,
+    rgba(132, 204, 132, 1) 100%
+  );
+  color: darkslateblue;
+  border: 2px solid white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-light {
+  background: transparent;
+  color: white;
+  border: 2px solid darkslateblue;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 2px solid white;
+  transition: 0.3s;
+}
