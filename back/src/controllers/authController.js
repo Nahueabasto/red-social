@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { createAccessToken } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
     //console.log(req.body); //datos que el cliente envie
@@ -13,17 +14,73 @@ export const register = async (req, res) => {
     })
     
     const userSaved = await newUser.save() //lo guarda en la base de datos
-    res.json({
+    const token = await createAccessToken({id: userSaved._id})
+
+    res.cookie("token", token);
+    // res.json({
+    //   menssage: "User created successfully"
+    // })
+    //
+    res.json({ //para que la interfas de front lo use
         id: userSaved._id,
         username: userSaved.username,
         email: userSaved.email,
         createdAt: userSaved.createdAt,
         updatedAt: userSaved.updatedAt,
     })
+    //
   } catch (error){
-    console.log(error)
+    res.status(500).json({ menssage: error.menssage });
   }
 }
 
-export const login = (req, res) => res.send("login");
 
+export const login = async (req, res) => {
+  
+  const { email, password } = req.body;
+try {
+
+  const userFound = await User.findOne({email})
+  if(!userFound) return res.status(400).json({ menssage: "User not found" });
+
+  const isMatch = await bcrypt.compare(password, userFound.password) //esto me va a devolver un true o false
+  if(!isMatch) return res.status(400).json({ menssage: "Incorrect password" })
+
+  const token = await createAccessToken({id: userFound._id})
+
+  res.cookie("token", token);
+  res.json({
+      id: userFound._id,
+      username: userFound.username,
+      email: userFound.email,
+      createdAt: userFound.createdAt,
+      updatedAt: userFound.updatedAt,
+  })
+  //
+} catch (error){
+  res.status(500).json({ menssage: error.menssage });
+}
+}
+
+
+export const logout = (req, res) => {
+  res.cookie("token", "", {
+    expires: new Date(0)
+  })
+  return res.sendStatus(200);
+}
+
+
+export const profile = async (req, res) => {
+  // console.log(req.user) // hice un comentario en referencia a esta linea en el archivo validateToken
+  const userFoud = await User.findById(req.user.id) //esto me va a dar los datos completos del usuario.
+  if(!userFoud) return res.status(400).json({ message: "User not found" });
+
+  return res.json({
+      id: userFoud._id,
+      username: userFoud.username,
+      email: userFoud.email,
+      createdAt: userFoud.createdAt,
+      updatedAt: userFoud.updatedAt,
+  })
+}
