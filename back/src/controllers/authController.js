@@ -6,6 +6,12 @@ export const register = async (req, res) => {
     //console.log(req.body); //datos que el cliente envie
     const {email, password, username} = req.body;
   try {
+   const userFoud = await User.findOne({email})
+   if(userFoud) return res.status(400).json(["The email is already use"]);
+
+   const usernameFound = await User.findOne({username})
+   if(usernameFound) return res.status(400).json(["The Username is already use"]);
+
     const passwordHash = await bcrypt.hash(password, 10) // para encriptar la contraseña
     const newUser = new User({ //crea usario adentro de un obj
         username,
@@ -41,10 +47,10 @@ export const login = async (req, res) => {
 try {
 
   const userFound = await User.findOne({email})
-  if(!userFound) return res.status(400).json({ menssage: "User not found" });
+  if(!userFound) return res.status(400).json([ "User not found" ]);
 
   const isMatch = await bcrypt.compare(password, userFound.password) //esto me va a devolver un true o false
-  if(!isMatch) return res.status(400).json({ menssage: "Incorrect password" })
+  if(!isMatch) return res.status(400).json([ "Incorrect password" ])
 
   const token = await createAccessToken({id: userFound._id})
 
