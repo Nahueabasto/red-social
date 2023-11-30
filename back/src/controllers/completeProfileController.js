@@ -18,42 +18,74 @@ import Profile from '../models/profile.model.js';
 //     res.json(profileSaved);
 // };
 
+// export const createProfile = async (req, res) => {
+//   const { name, age, location, images } = req.body;
+
+//   try {
+//     // Verificar si ya existe un perfil para el usuario
+//     const existingProfile = await Profile.findOne({ user: req.user.id });
+
+//     if (existingProfile) {
+//       // Si ya existe un perfil, actualiza sus datos
+//       existingProfile.name = name;
+//       existingProfile.age = age;
+//       existingProfile.location = location;
+//       existingProfile.images = images;
+
+//       // Guarda los cambios en la base de datos
+//       const updatedProfile = await existingProfile.save();
+//       return res.json(updatedProfile);
+//     } else {
+//       // Si no existe un perfil, crea uno nuevo
+//       const newProfile = new Profile({
+//         user: req.user.id,
+//         name,
+//         age,
+//         location,
+//         images,
+//       });
+
+//       // Guarda el nuevo perfil en la base de datos
+//       const profileSaved = await newProfile.save();
+//       return res.json(profileSaved);
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 export const createProfile = async (req, res) => {
-  const { name, age, location } = req.body;
+  const { name, age, location, images } = req.body;
 
   try {
     // Verificar si ya existe un perfil para el usuario
     const existingProfile = await Profile.findOne({ user: req.user.id });
 
     if (existingProfile) {
-      // Si ya existe un perfil, actualiza sus datos
-      existingProfile.name = name;
-      existingProfile.age = age;
-      existingProfile.location = location;
-
-      // Guarda los cambios en la base de datos
-      const updatedProfile = await existingProfile.save();
-      return res.json(updatedProfile);
-    } else {
-      // Si no existe un perfil, crea uno nuevo
-      const newProfile = new Profile({
-        user: req.user.id,
-        name,
-        age,
-        location,
-      });
-
-      // Guarda el nuevo perfil en la base de datos
-      const profileSaved = await newProfile.save();
-      return res.json(profileSaved);
+      // Si ya existe un perfil, responde con un mensaje de error
+      return res.status(400).json({ message: "El usuario ya tiene un perfil existente." });
     }
+
+    // Si no existe un perfil, crea uno nuevo
+    const newProfile = new Profile({
+      user: req.user.id,
+      name,
+      age,
+      location,
+      images,
+    });
+
+    // Guarda el nuevo perfil en la base de datos
+    const profileSaved = await newProfile.save();
+    return res.json(profileSaved);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
 
+//para traerme el profile del user registrado
 export const getProfiles = async (req, res) => {
   const profiles = await Profile.find({
     user: req.user.id

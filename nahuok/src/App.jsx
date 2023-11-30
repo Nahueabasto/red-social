@@ -3,13 +3,15 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './context/AuthContext';
 import HomePage from './pages/HomePages';
-import Profile from './pages/Profile';
+import ProfilePage from './pages/ProfilePage';
 import CreateProfile from './pages/CreateProfile';
 import ProtectedRoute from './ProtectedRoute';
+import { ProfileProvide } from './context/ProfileContext';
 
 const App = () => {
   return (
     <AuthProvider>
+      <ProfileProvide>
     <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -18,12 +20,13 @@ const App = () => {
 
           <Route element={<ProtectedRoute />}>
           <Route path="/createProfile" element={<CreateProfile />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/getProfiles" element={<ProfilePage />} />
           </Route>
 
 
         </Routes> 
     </BrowserRouter>
+    </ProfileProvide>
     </AuthProvider>
   )
 }
