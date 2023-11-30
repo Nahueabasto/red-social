@@ -14,6 +14,7 @@ app.use(cookieParser());
 
 app.use(cors({
     origin: "http://localhost:5173", // en este caso le decimos que solo ese es puede comunicar
+    credentials: true // para permitir ver tmb las cookies
 })); //quiero permitir que todos los dominios se puedan comunicar en este servidor.
 app.use("/api", authRoutes)
 app.use("/api", tasksRoutes)

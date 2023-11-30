@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
+import jwt from "jsonwebtoken";
+import { TOKEN_SECRET } from "../config.js";
 
 export const register = async (req, res) => {
     //console.log(req.body); //datos que el cliente envie
@@ -47,7 +49,7 @@ export const login = async (req, res) => {
 try {
 
   const userFound = await User.findOne({email})
-  if(!userFound) return res.status(400).json([ "User not found" ]);
+  if(!userFound) return res.status(400).json([ "Invalid email" ]);
 
   const isMatch = await bcrypt.compare(password, userFound.password) //esto me va a devolver un true o false
   if(!isMatch) return res.status(400).json([ "Incorrect password" ])
@@ -90,3 +92,25 @@ export const profile = async (req, res) => {
       updatedAt: userFoud.updatedAt,
   })
 }
+
+
+//si el usuario ya trajo su token vamos a pasarlo por jwt
+export const verifyToken = async (req, res) => { 
+  const {token} = req.cookies // de req.cookies voy a extraer de ahi los cookies
+  if(!token) return res.status(401).json({ menssage: "Unauthorized" })
+
+  //si hay un token que validar vamos a verificarlo:
+  jwt.verify(token, TOKEN_SECRET,  async (err, user) => {
+    if(err) return res.status(401).json({ menssage: "Unauthorized" })
+     
+  const userFoud = await User.findById(user.id);
+   //quiero que busquen del usuario el id que esta adentro del token
+if(!userFoud) return res.status(401).json({ menssage: "Unauthorized" })//puede que el token sea valido pero el user no existe 
+
+return res.json({ //si encuentro un user:
+  id: userFoud._id,
+  username: userFoud.username,
+  email: userFoud.email
+})
+  })
+} 

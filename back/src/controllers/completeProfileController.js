@@ -63,11 +63,6 @@ export const getProfiles = async (req, res) => {
 };
 
 
-// export const getProfile = async (req, res) => {
-//   const perfil = await Profile.findById(req.params.id);
-//   if(!perfil) return res.status(404).json({ message: "Profile not found" })
-// };
-
 export const updatedProfile = async (req, res) => {
   const { name, age, location, images } = req.body;
 
@@ -94,3 +89,11 @@ export const updatedProfile = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const getProfile = async (req, res) => {
+  
+  const perfil = await Profile.findById(req.params.id);
+  if(!perfil) return res.status(404).json({ message: "Profile not found" })
+};
+
