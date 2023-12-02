@@ -1,48 +1,44 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import "./Navbar.css";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function Navbar() {
-  const [click, setClick] = useState(false);
-  const handleClick = () => setClick(!click);
 
-  const [color, setColor] = useState(false);
-  const changeColor = () => {
-    if (window.scrollY >= 100) {
-      setColor(true);
-    } else {
-      setColor(false);
-    }
-  };
-
-  window.addEventListener("scroll", changeColor);
+const { isAutenhenticated, logout, user } = useAuth()
 
   return (
-    <div className={color ? "header header-bg" : "header"}>
-      <Link to="/">
-        <h1>My Portfolio</h1>
-      </Link>
-      <ul className={click ? "nav-menu active" : "nav-menu"}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/projects">Projects</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-      </ul>
-      <div className="hamburguer" onClick={handleClick}>
-        {click ? (
-          <CloseIcon size={30} style={{ color: "#fff" }} />
-        ) : (
-          <MenuIcon size={30} style={{ color: "#fff" }} />
-        )}
-      </div>
-    </div>
+   <nav className="bg-zinc-700 my-3 flex justify-between py-5 px-10 rounded-lg">
+    <Link to="/">
+    <h1 className="text-2xl font-bold">app</h1>
+    </Link>
+    <ul className="flex gap-x-2">
+      {isAutenhenticated ? ( //si esta autenticado quiero mostrar algunos valores, sino otros
+      <>
+      <li>
+    Welcome {user.username}
+     </li>
+     <li>
+    <Link to="/getProfiles">Mi perfil</Link>
+     </li>
+     <li>
+    <Link to="/" onClick={() => {
+      logout();
+    }}>Logout</Link>
+     </li>
+     </>
+      ) : ( 
+      <>
+      <li>
+    <Link to="/login">Login</Link>
+     </li>
+     <li>
+    <Link to="/register">Register</Link>
+     </li>
+     </>
+     )}
+    </ul>
+   </nav>
   );
 };
 

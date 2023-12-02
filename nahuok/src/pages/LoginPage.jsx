@@ -16,7 +16,7 @@ const navigate = useNavigate()
  })
 
  useEffect(() => {
-    if(isAutenhenticated) navigate("/getProfiles")
+    if(isAutenhenticated) navigate("/getProfiles") //Para que al logearse te lleve a la getProfiles, primero me si esta autenticado
  }, [isAutenhenticated])
 
     return(

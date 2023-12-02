@@ -77,6 +77,7 @@ export const createProfile = async (req, res) => {
 
     // Guarda el nuevo perfil en la base de datos
     const profileSaved = await newProfile.save();
+    console.log(profileSaved)
     return res.json(profileSaved);
   } catch (error) {
     console.error(error);

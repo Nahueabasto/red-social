@@ -45,6 +45,13 @@ const [loading, setLoading] = useState(true)
             }
     }
 
+    const logout = () => {
+        Cookies.remove("token");
+        setIsAutenhenticated(false);
+        setUser(null)
+    }
+
+
     useEffect(() => { //si hay error, que un determinado tiempo limpie el mensaje
         if(errors.length > 0){
         const timer = setTimeout(() => { // va a esperar 10 segundos, luego se ejecuta setErrros([])
@@ -98,6 +105,7 @@ const [loading, setLoading] = useState(true)
         <AuthContext.Provider value={{
             signup,
             signin,
+            logout,
             loading,
             user,
             isAutenhenticated,

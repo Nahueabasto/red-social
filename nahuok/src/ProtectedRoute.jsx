@@ -9,6 +9,7 @@ function ProtectedRoute(){
 
    if(!loading && !isAutenhenticated) return <Navigate to= "/login" replace />
 
+
     return <Outlet /> // si esta autenticado continua con el componente que esta adentro
 }
 

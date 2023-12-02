@@ -7,12 +7,14 @@ import ProfilePage from './pages/ProfilePage';
 import CreateProfile from './pages/CreateProfile';
 import ProtectedRoute from './ProtectedRoute';
 import { ProfileProvide } from './context/ProfileContext';
+import Navbar from './components/Navbar';
 
 const App = () => {
   return (
     <AuthProvider>
       <ProfileProvide>
     <BrowserRouter>
+    <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
