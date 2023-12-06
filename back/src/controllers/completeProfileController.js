@@ -125,8 +125,59 @@ export const updatedProfile = async (req, res) => {
 
 
 export const getProfile = async (req, res) => {
-  
-  const perfil = await Profile.findById(req.params.id);
+  try{
+  const perfil = await Profile.findById(req.params.id).populate("user")
   if(!perfil) return res.status(404).json({ message: "Profile not found" })
+  res.json(perfil)
+  } catch (error) {
+    return res.status(404).json({ message: "Profile not found" });
+  }
 };
+
+//otra ruta para obtener todo de user, profile
+export const getUser = async (req, res) => {
+  try {
+    // Busca el usuario por ID
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Busca el perfil asociado al usuario
+    const profile = await Profile.findOne({ user: req.params.id });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    // Devuelve tanto el usuario como el perfil
+    res.json({ user, profile });
+
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+export const deleteProfile = async (req, res) => {
+  try {
+    // Busca y elimina el usuario
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Busca y elimina el perfil asociado al usuario
+    await Profile.findOneAndDelete({ user: req.params.id });
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
+
 

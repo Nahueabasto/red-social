@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useProfile } from "../context/ProfileContext";
 import ProfileCard from "../components/ProfileCard";
 
-function ProfilePage() {
+function MyData() {
    const { getProfiles, profile, creadoProfile } = useProfile();
    console.log(profile.length)
 

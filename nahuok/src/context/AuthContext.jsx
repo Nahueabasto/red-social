@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { registerRequest, LoginRequest, verifyTokenRequest } from "../api/auth";
+import { registerRequest, LoginRequest, verifyTokenRequest, deleteProfileRequest } from "../api/auth";
 import Cookies from "js-cookie"
+
 
 
 export const AuthContext = createContext();
@@ -50,6 +51,16 @@ const [loading, setLoading] = useState(true)
         setIsAutenhenticated(false);
         setUser(null)
     }
+
+    const deleteProfile = async (id) => { // para eliminar el user junto con su profile
+        try {
+          const res = await deleteProfileRequest(id);
+          
+          if (res.status === 204) setUser(user.filter((user) => user._id !== id));
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
 
     useEffect(() => { //si hay error, que un determinado tiempo limpie el mensaje
@@ -110,6 +121,7 @@ const [loading, setLoading] = useState(true)
             user,
             isAutenhenticated,
             errors,
+            deleteProfile,
         }}>
             {children}
         </AuthContext.Provider>

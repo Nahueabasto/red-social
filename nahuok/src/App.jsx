@@ -8,13 +8,15 @@ import CreateProfile from './pages/CreateProfile';
 import ProtectedRoute from './ProtectedRoute';
 import { ProfileProvide } from './context/ProfileContext';
 import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 
 const App = () => {
   return (
     <AuthProvider>
       <ProfileProvide>
     <BrowserRouter>
-    <Navbar />
+    <div className="flex">
+    <Sidebar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -23,10 +25,11 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
           <Route path="/createProfile" element={<CreateProfile />} />
           <Route path="/getProfiles" element={<ProfilePage />} />
+          <Route path="/getProfile/:id" element={<CreateProfile />} />
           </Route>
 
-
         </Routes> 
+        </div>
     </BrowserRouter>
     </ProfileProvide>
     </AuthProvider>

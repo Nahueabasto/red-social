@@ -8,7 +8,7 @@ export default function Navbar() {
 const { isAutenhenticated, logout, user } = useAuth()
 
   return (
-   <nav className="bg-zinc-700 my-3 flex justify-between py-5 px-10 rounded-lg">
+   <nav className="bg-zinc-700 flex justify-between py-5 px-10">
     <Link to="/">
     <h1 className="text-2xl font-bold">app</h1>
     </Link>
@@ -19,7 +19,7 @@ const { isAutenhenticated, logout, user } = useAuth()
     Welcome {user.username}
      </li>
      <li>
-    <Link to="/getProfiles">Mi perfil</Link>
+    <Link to="/getProfiles" className="bg-indigo-500 px-4 py-1 rounded-sm">Mi perfil</Link>
      </li>
      <li>
     <Link to="/" onClick={() => {
@@ -30,10 +30,10 @@ const { isAutenhenticated, logout, user } = useAuth()
       ) : ( 
       <>
       <li>
-    <Link to="/login">Login</Link>
+    <Link to="/login" className="bg-indigo-500 px-4 py-1 rounded-sm">Login</Link>
      </li>
      <li>
-    <Link to="/register">Register</Link>
+    <Link to="/register" className="bg-indigo-500 px-4 py-1 rounded-sm">Register</Link>
      </li>
      </>
      )}

@@ -8,6 +8,8 @@ export const LoginRequest = user => axios.post(`/login`, user);
 
 export const verifyTokenRequest = () => axios.get("/verify")
 
+export const deleteProfileRequest = (id) => axios.delete(`/deleteProfile/${id}`)
+
 //export const LogoutRequest = () => axios.get("/verify")
 
 //esperamos que el back nos confirme si el usuario esta autenticado o no

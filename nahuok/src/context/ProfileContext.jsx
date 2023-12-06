@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getProfilesRequest, createProfileRequest, updatedProfileRequest, getProfileRequest } from "../api/profile";
+import { getProfilesRequest, createProfileRequest, getProfileRequest, updatedProfileRequest } from "../api/profile";
 
 const ProfileContext = createContext()
 
@@ -30,11 +30,31 @@ const createProfile = async (profile) => { //fun
     console.log(res)
 }
 
+const getProfile = async (id) => {
+    try{
+      const res = await getProfileRequest(id);
+ return res.data
+    } catch (error) {
+        console.error(error)
+    }
+};
+
+const updatedProfile = async (id, profile) => {
+    try {
+        await updatedProfileRequest(id, profile);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+
     return(
         <ProfileContext.Provider value={{
             profile, //exporta el valor del profile
             createProfile,
             getProfiles,
+            getProfile,
+            updatedProfile,
         }}>
             { children }
         </ProfileContext.Provider>
