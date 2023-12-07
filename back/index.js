@@ -9,6 +9,8 @@ app.listen(port, () => {
   console.log(`server on pory ${port}`);
 });
 
+/// esto de aca abajo estaba origimente: el archivo index.js pertenecia adentro de src y se modifico le archivo package.json la linea "dev": "nodemon src/index.js" por: "dev": "nodemon index.js"
+
 // import app from "./app.js";
 // import { connectDB } from "./db.js";
 
