@@ -9,8 +9,16 @@ import ProtectedRoute from './ProtectedRoute';
 import { ProfileProvide } from './context/ProfileContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import axios from 'axios';
 
 const App = () => {
+
+  if (window.location.hostname === 'localhost') {
+    axios.defaults.baseURL = 'http://localhost:3000';
+  } else {
+    axios.defaults.baseURL = 'https://red-social-psi.vercel.app/';
+  }
+
   return (
     <AuthProvider>
       <ProfileProvide>
