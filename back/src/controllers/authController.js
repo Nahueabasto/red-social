@@ -43,13 +43,39 @@ export const register = async (req, res) => {
 }
 
 
+// export const login = async (req, res) => {
+  
+//   const { email, password } = req.body;
+// try {
+
+//   const userFound = await User.findOne({email})
+//   if(!userFound) return res.status(400).json([ "Invalid email" ]);
+
+//   const isMatch = await bcrypt.compare(password, userFound.password) //esto me va a devolver un true o false
+//   if(!isMatch) return res.status(400).json([ "Incorrect password" ])
+
+//   const token = await createAccessToken({id: userFound._id})
+
+//   res.cookie("token", token);
+//   res.json({
+//       id: userFound._id,
+//       username: userFound.username,
+//       email: userFound.email,
+//       createdAt: userFound.createdAt,
+//       updatedAt: userFound.updatedAt,
+//   })
+//   //
+// } catch (error){
+//   res.status(500).json({ menssage: error.menssage });
+// }
+// }
 export const login = async (req, res) => {
   
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 try {
 
-  const userFound = await User.findOne({email})
-  if(!userFound) return res.status(400).json([ "Invalid email" ]);
+  const userFound = await User.findOne({username})
+  if(!userFound) return res.status(400).json([ "Invalid username" ]);
 
   const isMatch = await bcrypt.compare(password, userFound.password) //esto me va a devolver un true o false
   if(!isMatch) return res.status(400).json([ "Incorrect password" ])
@@ -69,7 +95,6 @@ try {
   res.status(500).json({ menssage: error.menssage });
 }
 }
-
 
 export const logout = (req, res) => {
   res.cookie("token", "", {

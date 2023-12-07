@@ -87,7 +87,7 @@ function RegisterPage() {
                 </div>
             ))}
 
-            <form onSubmit={onSubmit}>
+            {/* <form onSubmit={onSubmit}>
                 <input
                     type="text"
                     {...register("username", { required: true })}
@@ -122,7 +122,43 @@ function RegisterPage() {
                 {errors.password && (<p className="text-red-500"> Password is required. </p>)}
 
                 <button type="submit">Register</button>
-            </form>
+            </form> */}
+            <form onSubmit={onSubmit}>
+    <input
+        type="text"
+        {...register("username", { required: true })}
+        name="username"
+        id="username"
+        autoComplete="username"
+        className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+        placeholder="Username"
+    />
+    {errors.username && (<p className="text-red-500"> Username is required. </p>)}
+
+    <input
+        type="email"
+        {...register("email", { required: true })}
+        name="email"
+        id="email"
+        autoComplete="email"  // Cambiado a 'username' para no guardar automáticamente
+        className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+        placeholder="Email"
+    />
+    {errors.email && (<p className="text-red-500"> Email is required. </p>)}
+
+    <input
+        type="password"
+        {...register("password", { required: true })}
+        name="password"
+        id="password"
+        autoComplete="new-password"  // Agregar el atributo autocomplete
+        className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+        placeholder="Password"
+    />
+    {errors.password && (<p className="text-red-500"> Password is required. </p>)}
+
+    <button type="submit">Register</button>
+</form>
             <p className="flex gap-x-2 justify-between">
                 Already have an account? <Link to="/login" className="text-sky-500">Login</Link>
             </p>

@@ -7,7 +7,7 @@ const Sidebar = () => {
     const { isAutenhenticated, logout, user } = useAuth()
 
   return (
-<div className="bg-gray-800 text-white p-10 w-1/4">
+<div className="bg-zinc-700 text-white p-10 w-1/4">
 <nav className="space-y-4 px-10 py-5">
     <Link to="/">
       <h1 className="text-2xl font-bold">app</h1>
