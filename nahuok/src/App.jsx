@@ -14,7 +14,7 @@ import axios from 'axios';
 const App = () => {
 
   if (window.location.hostname === 'localhost') {
-    axios.defaults.baseURL = 'http://localhost:3000';
+    axios.defaults.baseURL = 'http://localhost:3000/api';
   } else {
     axios.defaults.baseURL = 'https://red-social-psi.vercel.app/';
   }
