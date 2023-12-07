@@ -1,9 +1,30 @@
+// import axios from "axios";
+
+// //esto nos va a permitir que el dominio base donde va a consultar
+// const instancia = axios.create({
+//     baseURL: "http://localhost:3000/api",
+//     withCredentials: true
+// })
+
+// export default instancia;
+
+
 import axios from "axios";
 
-//esto nos va a permitir que el dominio base donde va a consultar
+let baseURL = "http://localhost:3000/api";  // URL por defecto para entorno de desarrollo
+
+// Verifica si el hostname es localhost, y si es así, utiliza la URL de desarrollo
+if (window.location.hostname === 'localhost') {
+    baseURL = 'http://localhost:3000/api';
+} else {
+    // Si no es localhost, asume que está en producción y utiliza la URL de producción
+    baseURL = 'https://red-social-psi.vercel.app/';
+}
+
+// Crea una instancia de axios con la URL correspondiente
 const instancia = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: baseURL,
     withCredentials: true
-})
+});
 
 export default instancia;
