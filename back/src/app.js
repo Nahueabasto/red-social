@@ -24,6 +24,7 @@
 
 // app.js
 // app.js
+
 import express from 'express';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -38,19 +39,13 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 
-// Definir opciones de CORS
-const corsOptions = {
+// Configuración de CORS directamente en la aplicación Express
+app.use(cors({
   origin: ["http://localhost:5173", "https://red-social-8ysd.vercel.app"],
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
-};
-
-// Crear middleware de CORS
-const corsMiddleware = cors(corsOptions);
-
-// Aplicar middleware de CORS
-app.use(corsMiddleware);
+}));
 
 // Rutas
 app.use('/api', authRoutes);
