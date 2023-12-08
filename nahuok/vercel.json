@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/register",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://red-social-8ysd.vercel.app"
+        }
+      ]
+    }
+  ]
+}
