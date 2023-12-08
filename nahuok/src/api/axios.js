@@ -18,7 +18,7 @@ if (window.location.hostname === 'localhost') {
     baseURL = 'http://localhost:3000/api';
 } else {
     // Si no es localhost, asume que está en producción y utiliza la URL de producción
-    baseURL = 'https://red-social-psi.vercel.app/api';
+    baseURL = 'https://red-social-psi.vercel.app';
 }
 
 // Crea una instancia de axios con la URL correspondiente
