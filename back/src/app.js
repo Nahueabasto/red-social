@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cookieParser());
 
 app.use(cors({
-    origin: ["http://localhost:5173", "https://red-social-7db6.vercel.app"], // en este caso le decimos que solo ese es puede comunicar
+    origin: ["http://localhost:5173", "https://red-social-tc3n.vercel.app"], // en este caso le decimos que solo ese es puede comunicar
     credentials: true // para permitir ver tmb las cookies
 })); //quiero permitir que todos los dominios se puedan comunicar en este servidor.
 app.use("/api", authRoutes)
