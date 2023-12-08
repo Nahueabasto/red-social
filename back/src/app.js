@@ -48,9 +48,9 @@ app.use(cors({
 }));
 
 // Rutas
-app.use('/api', authRoutes);
-app.use('/api', tasksRoutes);
-app.use('/api', completeProfile);
+app.use('/', authRoutes);
+app.use('/', tasksRoutes);
+app.use('/', completeProfile);
 
 // Manejo de otras rutas o configuraciones...
 
