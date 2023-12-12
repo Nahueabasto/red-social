@@ -40,12 +40,27 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Configuración de CORS directamente en la aplicación Express
-app.use(cors({
-  origin: ["http://localhost:5173", "https://red-social-8ysd.vercel.app"],
-  credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-}));
+// app.use(cors({
+//   origin: ["http://localhost:5173", "https://red-social-8ysd.vercel.app"],
+//   credentials: true,
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   allowedHeaders: 'Content-Type,Authorization',
+// }));
+app.use((req, res, next) => {
+  // Permite el origen de localhost y economia-theta.vercel.app
+  const allowedOrigins = ['http://localhost:5173', 'https://red-social-8ysd.vercel.app'];
+  const origin = req.headers.origin;
+  
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
 
 // Rutas
 app.use('/', authRoutes);
