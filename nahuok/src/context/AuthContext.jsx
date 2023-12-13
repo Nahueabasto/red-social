@@ -39,35 +39,35 @@ const [loading, setLoading] = useState(true)
     }
 
     ///LOCALMENTE
-    // const signin = async (user) => { //busca los datos de un usuario para autenticarse
-    //     try {
-    //         const res = await LoginRequest(user);
-    //         setIsAutenhenticated(true); // para que quede autenticado
-    //         setUser(res.data) //guardo los datos del usuario
-    //         console.log(res);
-    //         } catch (error) {
-    //             setErrors(error.response.data)
-    //         }
-    // }
-    const signin = async (user) => {
+    const signin = async (user) => { //busca los datos de un usuario para autenticarse
         try {
-          const res = await LoginRequest(user);
+            const res = await LoginRequest(user);
+            setIsAutenhenticated(true); // para que quede autenticado
+            setUser(res.data) //guardo los datos del usuario
+            console.log(res);
+            } catch (error) {
+                setErrors(error.response.data)
+            }
+    }
+
+    // const signin = async (user) => {
+    //     try {
+    //       const res = await LoginRequest(user);
       
-          if (res.data.token) {
-            setIsAutenhenticated(true);
-            setUser(res.data);
-            localStorage.setItem('token', res.data.token);
+    //       console.log(res.data); // Imprime la respuesta completa para verificar su estructura
       
-            // Ahora puedes setear la cookie después de haber obtenido el token
-            Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
-          } else {
-            // Manejar el escenario donde no se recibe un token
-            setErrors(['Token not received']);
-          }
-        } catch (error) {
-          setErrors(error.response.data);
-        }
-      };
+    //       if (res.data.token) {
+    //         setIsAutenhenticated(true);
+    //         setUser(res.data);
+    //         Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
+    //       } else {
+    //         setErrors(['Token not received']);
+    //       }
+    //     } catch (error) {
+    //       setErrors(error.response.data);
+    //     }
+    //   };
+      
       
       
 
@@ -76,6 +76,19 @@ const [loading, setLoading] = useState(true)
         setIsAutenhenticated(false);
         setUser(null)
     }
+
+    // const logout = () => {
+    //     // Eliminar token de cookies
+    //     Cookies.remove("token");
+      
+    //     // Eliminar token de localStorage
+    //     localStorage.removeItem('token');
+      
+    //     // Actualizar estado
+    //     setIsAutenhenticated(false);
+    //     setUser(null);
+    //   };
+      
 
     const deleteProfile = async (id) => { // para eliminar el user junto con su profile
         try {
@@ -105,70 +118,70 @@ const [loading, setLoading] = useState(true)
     //importante: cuando cargo la pagina en teoria tiene el token guardado 
 
     ////LOCALMENTE
-    // useEffect(() => {
-    //   async function checkLogin() {
-    //   const cookies = Cookies.get() 
-
-    //   if(!cookies.token){ //PRIMERO COMPRUEVA SI NO HAY UN TOKEN
-    //     console.log(cookies.token)
-    //     setIsAutenhenticated(false) //le decimos que la autenticacion esta en false
-    //     setLoading(false) //tambien loading
-    //     return setUser(null) //no hay naranja
-    //   }
-    //     try{
-    //     const res = await verifyTokenRequest(cookies.token) // SI HAY UN TOKEN VERIFICALO, SI HAY UN TOJEN ENVIALO AL BACK "verifyTokenRequest(cookies.token)" EN BACK TE VA A ENVIAR UNA RESPUESTA.
-    //     if(!res.data) { //SI NO TE ESTA RESPONDIENDO NINGUN DANTO ENVIA ESTO:
-    //     setIsAutenhenticated(false)
-    //     setLoading(false)
-    //     return;
-    //     }
-
-    //     //SI SI ESTA RESPONDIENDO UN DATO:    
-    //     setIsAutenhenticated(true)
-    //     setUser(res.data) //MUESTRAME EL USUARIO, GUARDALO EN EL ESTADO
-    //     setLoading(false)
-
-    //     //SI HAY ERROR:
-    //     } catch (error){
-    //         setIsAutenhenticated(false) //si recibio un error colocamos setIsAutenhenticated en false
-    //         setUser(null)
-    //         setLoading(false)
-    //     }
-    //   }
-    // checkLogin();
-    // }, [])
-    //////////
     useEffect(() => {
-        async function checkLogin() {
-          const storedToken = Cookies.get('token');
-      
-          if (!storedToken) {
-            setIsAutenhenticated(false);
-            setLoading(false);
-            return setUser(null);
-          }
-      
-          try {
-            const res = await verifyTokenRequest(storedToken);
-      
-            if (!res.data) {
-                setIsAutenhenticated(false);
-              setLoading(false);
-              return setUser(null);
-            }
-      
-            setIsAutenhenticated(true);
-            setUser(res.data);
-            setLoading(false);
-          } catch (error) {
-            setIsAutenhenticated(false);
-            setUser(null);
-            setLoading(false);
-          }
+      async function checkLogin() {
+      const cookies = Cookies.get() 
+
+      if(!cookies.token){ //PRIMERO COMPRUEVA SI NO HAY UN TOKEN
+        console.log(cookies.token)
+        setIsAutenhenticated(false) //le decimos que la autenticacion esta en false
+        setLoading(false) //tambien loading
+        return setUser(null) //no hay naranja
+      }
+        try{
+        const res = await verifyTokenRequest(cookies.token) // SI HAY UN TOKEN VERIFICALO, SI HAY UN TOJEN ENVIALO AL BACK "verifyTokenRequest(cookies.token)" EN BACK TE VA A ENVIAR UNA RESPUESTA.
+        if(!res.data) { //SI NO TE ESTA RESPONDIENDO NINGUN DANTO ENVIA ESTO:
+        setIsAutenhenticated(false)
+        setLoading(false)
+        return;
         }
+
+        //SI SI ESTA RESPONDIENDO UN DATO:    
+        setIsAutenhenticated(true)
+        setUser(res.data) //MUESTRAME EL USUARIO, GUARDALO EN EL ESTADO
+        setLoading(false)
+
+        //SI HAY ERROR:
+        } catch (error){
+            setIsAutenhenticated(false) //si recibio un error colocamos setIsAutenhenticated en false
+            setUser(null)
+            setLoading(false)
+        }
+      }
+    checkLogin();
+    }, [])
+    //////////
+    // useEffect(() => {
+    //     async function checkLogin() {
+    //       const storedToken = Cookies.get('token');
       
-        checkLogin();
-      }, []);
+    //       if (!storedToken) {
+    //         setIsAutenhenticated(false);
+    //         setLoading(false);
+    //         return setUser(null);
+    //       }
+      
+    //       try {
+    //         const res = await verifyTokenRequest(storedToken);
+      
+    //         if (!res.data) {
+    //             setIsAutenhenticated(false);
+    //           setLoading(false);
+    //           return setUser(null);
+    //         }
+      
+    //         setIsAutenhenticated(true);
+    //         setUser(res.data);
+    //         setLoading(false);
+    //       } catch (error) {
+    //         setIsAutenhenticated(false);
+    //         setUser(null);
+    //         setLoading(false);
+    //       }
+    //     }
+      
+    //     checkLogin();
+    //   }, []);
 
 //todos los componentes que esten adentro van a poder llamar tanto el dato del usuario, como la funcion signup
     return (
