@@ -4,6 +4,8 @@ import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.js";
 
+//console.log(TOKEN_SECRET)
+
 export const register = async (req, res) => {
     //console.log(req.body); //datos que el cliente envie
     const {email, password, username} = req.body;
@@ -82,7 +84,11 @@ try {
 
   const token = await createAccessToken({id: userFound._id})
 
-  res.cookie("token", token);
+  res.cookie("token", token, {
+  //console.log(token)
+  sameSite: 'none',
+  secure: true
+  })
   res.json({
       id: userFound._id,
       username: userFound.username,
