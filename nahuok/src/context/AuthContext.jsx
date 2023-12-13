@@ -6,6 +6,9 @@ import Cookies from "js-cookie"
 
 export const AuthContext = createContext();
 
+//Cookies.set('token', 'token', { secure: true, sameSite: 'None' });
+//
+
 export const useAuth = () => { // el useAuth nos trae todos los datos que tenemos dentro de signup, user, de abajo
    const context = useContext(AuthContext)
    if(!context){
@@ -45,6 +48,19 @@ const [loading, setLoading] = useState(true)
                 setErrors(error.response.data)
             }
     }
+    // const signin = async (user) => {
+    //     try {
+    //       const res = await LoginRequest(user);
+    //       setIsAutenhenticated(true);
+    //       setUser(res.data);
+    
+    //       // Establecer la cookie al iniciar sesión
+    //       Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
+    
+    //     } catch (error) {
+    //       setErrors(error.response.data);
+    //     }
+    //   };
 
     const logout = () => {
         Cookies.remove("token");
@@ -83,6 +99,7 @@ const [loading, setLoading] = useState(true)
       const cookies = Cookies.get() 
 
       if(!cookies.token){ //PRIMERO COMPRUEVA SI NO HAY UN TOKEN
+        console.log(cookies.token)
         setIsAutenhenticated(false) //le decimos que la autenticacion esta en false
         setLoading(false) //tambien loading
         return setUser(null) //no hay naranja
@@ -110,6 +127,7 @@ const [loading, setLoading] = useState(true)
     checkLogin();
     }, [])
     //////////
+      
 
 //todos los componentes que esten adentro van a poder llamar tanto el dato del usuario, como la funcion signup
     return (

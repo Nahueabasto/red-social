@@ -2,12 +2,11 @@
 
 // //esto nos va a permitir que el dominio base donde va a consultar
 // const instancia = axios.create({
-//     baseURL: "http://localhost:3000/api",
+//     baseURL: "https://red-social-sable.vercel.app/",
 //     withCredentials: true
 // })
 
 // export default instancia;
-
 
 import axios from "axios";
 
