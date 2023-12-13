@@ -6,7 +6,7 @@ import Cookies from "js-cookie"
 
 export const AuthContext = createContext();
 
-Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
+//Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
 //
 
 export const useAuth = () => { // el useAuth nos trae todos los datos que tenemos dentro de signup, user, de abajo
@@ -57,6 +57,9 @@ const [loading, setLoading] = useState(true)
             setIsAutenhenticated(true);
             setUser(res.data);
             localStorage.setItem('token', res.data.token);
+      
+            // Ahora puedes setear la cookie después de haber obtenido el token
+            Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
           } else {
             // Manejar el escenario donde no se recibe un token
             setErrors(['Token not received']);
@@ -65,6 +68,7 @@ const [loading, setLoading] = useState(true)
           setErrors(error.response.data);
         }
       };
+      
       
 
     const logout = () => {
