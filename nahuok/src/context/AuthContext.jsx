@@ -151,38 +151,39 @@ const [loading, setLoading] = useState(true)
     // checkLogin();
     // }, [])
     //////////
-    useEffect(() => {
-        async function checkLogin() {
-          const storedToken = Cookies.get('token') || localStorage.getItem('token');
-      
-          if (!storedToken) {
+
+
+const storedToken = Cookies.get('token') || localStorage.getItem('token');
+
+useEffect(() => {
+    async function checkLogin() {
+      if (!storedToken) {
+        setIsAutenhenticated(false);
+        setLoading(false);
+        return setUser(null);
+      }
+
+      try {
+        const response = await verifyTokenRequest(storedToken);
+
+        if (!response.data) {
             setIsAutenhenticated(false);
-            setLoading(false);
-            return setUser(null);
-          }
-      
-          try {
-            const res = await verifyTokenRequest(storedToken);
-      
-            if (!res.data) {
-                setIsAutenhenticated(false);
-              setLoading(false);
-              return setUser(null);
-            }
-      
-            setIsAutenhenticated(true);
-            setUser(res.data);
-            setLoading(false);
-          } catch (error) {
-            setIsAutenhenticated(false);
-            setUser(null);
-            setLoading(false);
-          }
+          setLoading(false);
+          return setUser(null);
         }
-      
-        checkLogin();
-      }, []);
-      
+
+        setIsAutenhenticated(true);
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        setIsAutenhenticated(false);
+        setUser(null);
+        setLoading(false);
+      }
+    }
+
+    checkLogin();
+  }, [storedToken]);
 
 //todos los componentes que esten adentro van a poder llamar tanto el dato del usuario, como la funcion signup
     return (
