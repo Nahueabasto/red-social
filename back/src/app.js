@@ -37,11 +37,12 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
- //app.use(cookieParser());
-app.use(cookieParser(null, {
-  sameSite: 'None', // Configura SameSite
-  secure: true, // También establece Secure en true para SameSite=None
-}));
+app.use(cookieParser());
+
+app.use((req, res, next) => {
+ res.cookie('myCookie', 'myValue', { sameSite: 'none', secure: true });
+ next();
+});
 
 //Configuración de CORS directamente en la aplicación Express
 app.use(cors({
