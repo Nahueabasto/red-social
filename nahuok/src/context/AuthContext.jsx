@@ -38,34 +38,36 @@ const [loading, setLoading] = useState(true)
     }
 
     ///LOCALMENTE
-    const signin = async (user) => { //busca los datos de un usuario para autenticarse
+    // const signin = async (user) => { //busca los datos de un usuario para autenticarse
+    //     try {
+    //         const res = await LoginRequest(user);
+    //         setIsAutenhenticated(true); // para que quede autenticado
+    //         setUser(res.data) //guardo los datos del usuario
+    //         console.log(res);
+    //         } catch (error) {
+    //             setErrors(error.response.data)
+    //         }
+    // }
+
+    const signin = async (user) => {
         try {
             const res = await LoginRequest(user);
-            setIsAutenhenticated(true); // para que quede autenticado
-            setUser(res.data) //guardo los datos del usuario
-            console.log(res);
-            } catch (error) {
-                setErrors(error.response.data)
+    
+            // Si la respuesta contiene el token
+            if (res.data.token) {
+                // Configuración de la cookie después de una autenticación exitosa
+                Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
+    
+                // Resto del código
+                setIsAutenhenticated(true); // para que quede autenticado
+                setUser(res.data); // guardo los datos del usuario
+            } else {
+                setErrors(['Token not received']);
             }
-    }
-
-    // const signin = async (user) => {
-    //     try {
-    //       const res = await LoginRequest(user);
-      
-    //       console.log(res.data); // Imprime la respuesta completa para verificar su estructura
-      
-    //       if (res.data.token) {
-    //         setIsAutenhenticated(true);
-    //         setUser(res.data);
-    //         Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
-    //       } else {
-    //         setErrors(['Token not received']);
-    //       }
-    //     } catch (error) {
-    //       setErrors(error.response.data);
-    //     }
-    //   };
+        } catch (error) {
+            setErrors(error.response.data);
+        }
+    };
       
       
     const storeToken = (token) => {
