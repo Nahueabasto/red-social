@@ -86,8 +86,8 @@ try {
 
   res.cookie("token", token, {
   //console.log(token)
-  sameSite: 'none', //significa que la cookie no esta en el mismo dominio
-  secure: true
+  // sameSite: 'none',
+  // secure: true
   })
   res.json({
       id: userFound._id,
@@ -135,7 +135,7 @@ export const verifyToken = async (req, res) => {
     if(err) return res.status(401).json({ menssage: "Unauthorized" })
      
   const userFoud = await User.findById(user.id);
-   //quiero que busque del usuario el id que esta adentro del token
+   //quiero que busquen del usuario el id que esta adentro del token
 if(!userFoud) return res.status(401).json({ menssage: "Unauthorized" })//puede que el token sea valido pero el user no existe 
 
 return res.json({ //si encuentro un user:
