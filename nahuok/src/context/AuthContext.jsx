@@ -68,7 +68,11 @@ const [loading, setLoading] = useState(true)
     //   };
       
       
-      
+    const storeToken = (token) => {
+        // Puedes elegir entre Cookies o localStorage, o ambos
+        Cookies.set('token', token, { secure: true, sameSite: 'None' });
+        localStorage.setItem('token', token);
+      };      
 
     const logout = () => {
         Cookies.remove("token");
@@ -153,37 +157,40 @@ const [loading, setLoading] = useState(true)
     //////////
 
 
-const storedToken = Cookies.get('token') || localStorage.getItem('token');
+    //const storedToken = Cookies.get('token') || localStorage.getItem('token');
 
-useEffect(() => {
-    async function checkLogin() {
-      if (!storedToken) {
-        setIsAutenhenticated(false);
-        setLoading(false);
-        return setUser(null);
-      }
-
-      try {
-        const response = await verifyTokenRequest(storedToken);
-
-        if (!response.data) {
+    useEffect(() => {
+        async function checkLogin() {
+          const storedToken = Cookies.get('token') || localStorage.getItem('token');
+      
+          if (!storedToken) {
             setIsAutenhenticated(false);
-          setLoading(false);
-          return setUser(null);
+            setLoading(false);
+            return setUser(null);
+          }
+      
+          try {
+            const response = await verifyTokenRequest(storedToken);
+      
+            if (!response.data) {
+              setIsAutenhenticated(false);
+              setLoading(false);
+              return setUser(null);
+            }
+      
+            setIsAutenhenticated(true);
+            setUser(response.data);
+            setLoading(false);
+          } catch (error) {
+            setIsAutenhenticated(false);
+            setUser(null);
+            setLoading(false);
+          }
         }
-
-        setIsAutenhenticated(true);
-        setUser(response.data);
-        setLoading(false);
-      } catch (error) {
-        setIsAutenhenticated(false);
-        setUser(null);
-        setLoading(false);
-      }
-    }
-
-    checkLogin();
-  }, [storedToken]);
+      
+        checkLogin();
+      }, []); 
+      
 
 //todos los componentes que esten adentro van a poder llamar tanto el dato del usuario, como la funcion signup
     return (
