@@ -4,7 +4,13 @@ import axios from "./axios";
 
 export const registerRequest = user => axios.post(`/register`, user);
 
-export const LoginRequest = user => axios.post(`/login`, user);
+// export const LoginRequest = user => axios.post(`/login`, user);
+export const loginRequest = user => {
+    const url = "/login";
+    const data = user;
+  
+    return axios.post(url, data, { withCredentials: true });
+  };
 
 export const verifyTokenRequest = () => axios.get("/verify")
 
