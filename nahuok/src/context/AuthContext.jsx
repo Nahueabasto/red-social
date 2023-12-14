@@ -7,7 +7,6 @@ import Cookies from "js-cookie"
 export const AuthContext = createContext();
 
 //Cookies.set('token', res.data.token, { secure: true, sameSite: 'None' });
-//
 
 export const useAuth = () => { // el useAuth nos trae todos los datos que tenemos dentro de signup, user, de abajo
    const context = useContext(AuthContext)
@@ -117,71 +116,73 @@ const [loading, setLoading] = useState(true)
 
     //importante: cuando cargo la pagina en teoria tiene el token guardado 
 
+    ////////////////////////
     ////LOCALMENTE
-    useEffect(() => {
-      async function checkLogin() {
-      const cookies = Cookies.get() 
-
-      if(!cookies.token){ //PRIMERO COMPRUEVA SI NO HAY UN TOKEN
-        console.log(cookies.token)
-        setIsAutenhenticated(false) //le decimos que la autenticacion esta en false
-        setLoading(false) //tambien loading
-        return setUser(null) //no hay naranja
-      }
-        try{
-        const res = await verifyTokenRequest(cookies.token) // SI HAY UN TOKEN VERIFICALO, SI HAY UN TOJEN ENVIALO AL BACK "verifyTokenRequest(cookies.token)" EN BACK TE VA A ENVIAR UNA RESPUESTA.
-        if(!res.data) { //SI NO TE ESTA RESPONDIENDO NINGUN DANTO ENVIA ESTO:
-        setIsAutenhenticated(false)
-        setLoading(false)
-        return;
-        }
-
-        //SI SI ESTA RESPONDIENDO UN DATO:    
-        setIsAutenhenticated(true)
-        setUser(res.data) //MUESTRAME EL USUARIO, GUARDALO EN EL ESTADO
-        setLoading(false)
-
-        //SI HAY ERROR:
-        } catch (error){
-            setIsAutenhenticated(false) //si recibio un error colocamos setIsAutenhenticated en false
-            setUser(null)
-            setLoading(false)
-        }
-      }
-    checkLogin();
-    }, [])
-    //////////
     // useEffect(() => {
-    //     async function checkLogin() {
-    //       const storedToken = Cookies.get('token');
-      
-    //       if (!storedToken) {
-    //         setIsAutenhenticated(false);
-    //         setLoading(false);
-    //         return setUser(null);
-    //       }
-      
-    //       try {
-    //         const res = await verifyTokenRequest(storedToken);
-      
-    //         if (!res.data) {
-    //             setIsAutenhenticated(false);
-    //           setLoading(false);
-    //           return setUser(null);
-    //         }
-      
-    //         setIsAutenhenticated(true);
-    //         setUser(res.data);
-    //         setLoading(false);
-    //       } catch (error) {
-    //         setIsAutenhenticated(false);
-    //         setUser(null);
-    //         setLoading(false);
-    //       }
+    //   async function checkLogin() {
+    //   const cookies = Cookies.get() 
+
+    //   if(!cookies.token){ //PRIMERO COMPRUEVA SI NO HAY UN TOKEN
+    //     console.log(cookies.token)
+    //     setIsAutenhenticated(false) //le decimos que la autenticacion esta en false
+    //     setLoading(false) //tambien loading
+    //     return setUser(null) //no hay naranja
+    //   }
+    //     try{
+    //     const res = await verifyTokenRequest(cookies.token) // SI HAY UN TOKEN VERIFICALO, SI HAY UN TOKEN ENVIALO AL BACK "verifyTokenRequest(cookies.token)" EN BACK TE VA A ENVIAR UNA RESPUESTA.
+    //     if(!res.data) { //SI NO TE ESTA RESPONDIENDO NINGUN DANTO ENVIA ESTO:
+    //     setIsAutenhenticated(false)
+    //     setLoading(false)
+    //     return;
     //     }
+
+    //     //SI SI ESTA RESPONDIENDO UN DATO:    
+    //     setIsAutenhenticated(true)
+    //     setUser(res.data) //MUESTRAME EL USUARIO, GUARDALO EN EL ESTADO
+    //     setLoading(false)
+
+    //     //SI HAY ERROR:
+    //     } catch (error){
+    //         setIsAutenhenticated(false) //si recibio un error colocamos setIsAutenhenticated en false
+    //         setUser(null)
+    //         setLoading(false)
+    //     }
+    //   }
+    // checkLogin();
+    // }, [])
+    //////////
+    useEffect(() => {
+        async function checkLogin() {
+          const storedToken = Cookies.get('token') || localStorage.getItem('token');
       
-    //     checkLogin();
-    //   }, []);
+          if (!storedToken) {
+            setIsAutenhenticated(false);
+            setLoading(false);
+            return setUser(null);
+          }
+      
+          try {
+            const res = await verifyTokenRequest(storedToken);
+      
+            if (!res.data) {
+                setIsAutenhenticated(false);
+              setLoading(false);
+              return setUser(null);
+            }
+      
+            setIsAutenhenticated(true);
+            setUser(res.data);
+            setLoading(false);
+          } catch (error) {
+            setIsAutenhenticated(false);
+            setUser(null);
+            setLoading(false);
+          }
+        }
+      
+        checkLogin();
+      }, []);
+      
 
 //todos los componentes que esten adentro van a poder llamar tanto el dato del usuario, como la funcion signup
     return (
