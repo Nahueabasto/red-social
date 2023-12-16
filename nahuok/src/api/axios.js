@@ -2,7 +2,7 @@
 
 // //esto nos va a permitir que el dominio base donde va a consultar
 // const instancia = axios.create({
-//     baseURL: "https://red-social-sable.vercel.app/",
+//     baseURL: "http://localhost:3000",
 //     withCredentials: true
 // })
 
