@@ -86,8 +86,8 @@ try {
 
   res.cookie("token", token, {
   //console.log(token)
-  sameSite: 'none',
-  secure: true
+  // sameSite: 'none',
+  // secure: true
   })
   res.json({
       id: userFound._id,
