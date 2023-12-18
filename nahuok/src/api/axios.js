@@ -4,7 +4,7 @@ import axios from "axios";
 const instancia = axios.create({
     baseURL: "https://back-red-social.vercel.app",
     withCredentials: true,
-    timeout: 5000
+    timeout: 15000
 })
 
 export default instancia;
