@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter, HashRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './context/AuthContext';
@@ -17,8 +17,7 @@ const App = () => {
   return (
     <AuthProvider>
       <ProfileProvide>
-      <HashRouter>
-    {/* <BrowserRouter> */}
+    <BrowserRouter>
     <div className="flex">
     <Sidebar />
         <Routes>
@@ -34,8 +33,7 @@ const App = () => {
 
         </Routes> 
         </div>
-        </HashRouter>
-    {/* </BrowserRouter> */}
+    </BrowserRouter>
     </ProfileProvide>
     </AuthProvider>
   )
