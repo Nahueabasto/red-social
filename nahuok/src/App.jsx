@@ -24,11 +24,10 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage/>} />
-          <Route path="/getProfiles" element={<ProfilePage />} />
 
           <Route element={<ProtectedRoute />}>
           <Route path="/createProfile" element={<CreateProfile />} />
-          {/* <Route path="/getProfiles" element={<ProfilePage />} /> */}
+          <Route path="/getProfiles" element={<ProfilePage />} />
           <Route path="/getProfile/:id" element={<CreateProfile />} />
           </Route>
 

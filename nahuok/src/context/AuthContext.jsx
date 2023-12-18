@@ -68,11 +68,11 @@ const [loading, setLoading] = useState(true)
     // };
       
       
-    const storeToken = (token) => {
-        // Puedes elegir entre Cookies o localStorage, o ambos
-        Cookies.set('token', token, { secure: true, sameSite: 'None' });
-        localStorage.setItem('token', token);
-      };      
+    // const storeToken = (token) => {
+    //     // Puedes elegir entre Cookies o localStorage, o ambos
+    //     Cookies.set('token', token, { secure: true, sameSite: 'None' });
+    //     localStorage.setItem('token', token);
+    //   };      
 
     const logout = () => {
         Cookies.remove("token");
